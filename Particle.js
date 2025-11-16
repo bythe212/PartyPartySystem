@@ -1,30 +1,51 @@
 class Particle {
-    constructor(position) {
-        this.acceleration = createVector(0, 0.05);
-        this.velocity = createVector(random(-1, 1), random(-1, 0));
-        this.position = position.copy();
-        this.lifespan = 50;
-    }
+  constructor(position) {
+    
+    this.position = position.copy();
 
-    run() {
-        this.update();
-        this.display();
-    }
+ 
+    this.velocity = createVector(random(-1, 1), random(-2, 0));
 
-    update() {
-        this.velocity.add(this.acceleration);
-        this.position.add(this.velocity);
-        this.lifespan -= 1;
-    }
 
-    display() {
-        stroke(200, this.lifespan);
-        strokeWeight(2);
-        fill(127, this.lifespan*7);
-        ellipse(this.position.x, this.position.y, 2, 2);
-    }
+    this.acceleration = createVector(0, 0);
 
-    isDead() {
-        return this.lifespan < 0;
-    }
+
+    this.lifespan = 120;
+
+ 
+    this.size = 3;
+  }
+
+ 
+  applyForce(force) {
+    this.acceleration.add(force);
+  }
+
+  run() {
+    this.update();
+    this.display();
+  }
+
+  update() {
+   
+    this.velocity.add(this.acceleration);
+    this.position.add(this.velocity);
+
+ 
+    this.acceleration.mult(0);
+
+    this.lifespan -= 2;
+  }
+
+  display() {
+    push();
+    noStroke();
+    fill(255, this.lifespan);
+    ellipse(this.position.x, this.position.y, this.size);
+    pop();
+  }
+
+  isDead() {
+    return this.lifespan <= 0;
+  }
 }
